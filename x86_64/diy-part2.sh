@@ -96,41 +96,6 @@ sed -i '/CONFIG_PACKAGE_luci-app-vlmcsd/d' .config
 echo '# CONFIG_PACKAGE_vlmcsd is not set' >> .config
 echo '# CONFIG_PACKAGE_luci-app-vlmcsd is not set' >> .config
 
-# =========================================================
-# 5. 网络参数优化（sysctl）
-# =========================================================
-mkdir -p files/etc/sysctl.d/
-
-cat > files/etc/sysctl.d/99-proxy-optimize.conf << 'SYSCTL'
-# ---------------------------------------------------------
-# Conntrack（daed/代理高并发必需）
-# ---------------------------------------------------------
-net.netfilter.nf_conntrack_max=32768
-net.netfilter.nf_conntrack_tcp_timeout_established=3600
-net.netfilter.nf_conntrack_udp_timeout=60
-net.netfilter.nf_conntrack_udp_timeout_stream=120
-
-# ---------------------------------------------------------
-# TCP 优化
-# ---------------------------------------------------------
-net.core.netdev_max_backlog=2048
-net.core.somaxconn=2048
-net.ipv4.tcp_max_syn_backlog=2048
-net.ipv4.tcp_fastopen=3
-net.ipv4.tcp_slow_start_after_idle=0
-net.ipv4.tcp_tw_reuse=1
-net.ipv4.tcp_fin_timeout=30
-net.ipv4.tcp_keepalive_time=600
-net.ipv4.tcp_keepalive_intvl=15
-net.ipv4.tcp_keepalive_probes=5
-net.ipv4.tcp_max_tw_buckets=8192
-
-# ---------------------------------------------------------
-# 本地端口范围
-# ---------------------------------------------------------
-net.ipv4.ip_local_port_range=1024 65535
-SYSCTL
-
 echo "✅ 网络优化参数已写入"
 
 # 修改默认 IP (192.168.30.1)
