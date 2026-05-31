@@ -47,7 +47,7 @@ git clone --depth=1 https://github.com/iv7777/luci-app-authshield.git package/cu
 git clone --depth=1 https://github.com/destan19/OpenAppFilter.git package/custom/OpenAppFilter
 git clone --depth=1 https://github.com/janvanstiphout/luci-app-accesscontrol.git package/custom/accesscontrol
 
-rm -rf feeds/luci/applications/dockerman
+rm -rf feeds/luci/applications/luci-app-dockerman
 git clone --depth=1 https://github.com/lisaac/luci-app-dockerman.git package/custom/dockerman
 
 # VPN
