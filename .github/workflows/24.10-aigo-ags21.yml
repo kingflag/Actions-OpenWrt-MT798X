@@ -10,6 +10,7 @@ env:
   CONFIG_FILE: 24.10/mt7981-aigo-ags21.config
   DIY_P1_SH: 24.10/diy-part1.sh
   DIY_P2_SH: 24.10/diy-part2.sh
+  DIY_DEVICE_SH: 24.10/diy-part-aigo-ags21.sh
   DIY_P3_SH: diy-partX.sh
   UPLOAD_BIN_DIR: true
   UPLOAD_FIRMWARE: true
@@ -132,6 +133,15 @@ jobs:
         chmod +x "$DIY_P2_SH"
         cd openwrt
         "$GITHUB_WORKSPACE/$DIY_P2_SH"
+
+    # =========================================================
+    # 5.4 注入 Aigo AGS21 设备支持 (DTS + filogic.mk)
+    # =========================================================
+    - name: Apply Aigo AGS21 device support
+      run: |
+        chmod +x "$DIY_DEVICE_SH"
+        cd openwrt
+        "$GITHUB_WORKSPACE/$DIY_DEVICE_SH"
 
     # =========================================================
     # 5.5 加载自定义配置 (diy-part3.sh)
