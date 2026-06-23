@@ -11,6 +11,7 @@ DEVICE_DIR="${SCRIPT_DIR}/aigo-ags21"
 DTS_SRC="${DEVICE_DIR}/mt7981b-aigo-ags21.dts"
 DTS_DST="target/linux/mediatek/dts/mt7981b-aigo-ags21.dts"
 FILOGIC_MK="target/linux/mediatek/image/filogic.mk"
+NETWORK_SH="target/linux/mediatek/filogic/base-files/etc/board.d/02_network"
 PLATFORM_SH="target/linux/mediatek/filogic/base-files/lib/upgrade/platform.sh"
 UBOOT_ENV="package/boot/uboot-tools/uboot-envtools/files/mediatek_filogic"
 
@@ -52,6 +53,15 @@ if [ -f "$PLATFORM_SH" ] && ! grep -q 'aigo,ags21' "$PLATFORM_SH"; then
 	echo ">>> 添加 eMMC sysupgrade 支持 (platform.sh)..."
 	sed -i '/umi,uax3000e|\\/a\	aigo,ags21|\\' "$PLATFORM_SH"
 	echo "✅ platform.sh 已更新"
+fi
+
+if [ -f "$NETWORK_SH" ] && ! grep -q 'aigo,ags21' "$NETWORK_SH"; then
+	echo ">>> Add default LAN/WAN layout (02_network)..."
+	sed -i '/^\t\*)/i\
+	aigo,ags21)\
+		ucidef_set_interfaces_lan_wan "lan1 lan2" eth1\
+		;;' "$NETWORK_SH"
+	echo "✅ 02_network has been updated"
 fi
 
 if [ -f "$UBOOT_ENV" ] && ! grep -q 'aigo,ags21' "$UBOOT_ENV"; then
